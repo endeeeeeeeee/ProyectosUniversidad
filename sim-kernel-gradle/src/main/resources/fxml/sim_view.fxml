@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.simkernel.ui.SimViewController">
+
+    <top>
+        <VBox spacing="10" styleClass="header-box">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Sim-Kernel: Sistema Operativo Simulado" styleClass="title-label"/>
+            <HBox spacing="10">
+                <Label text="Estrategia de Memoria:" styleClass="label-form"/>
+                <ComboBox fx:id="comboEstrategia" prefWidth="160">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="First Fit"/>
+                            <String fx:value="Best Fit"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Label text="Planificador:" styleClass="label-form"/>
+                <ComboBox fx:id="comboPlanificador" prefWidth="120">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="FIFO"/>
+                            <String fx:value="Round Robin"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Label text="Quantum:" styleClass="label-form"/>
+                <TextField fx:id="txtQuantum" prefWidth="60" promptText="4"/>
+                <Button fx:id="btnSimular" text="🚀 Iniciar Simulación" styleClass="primary-button"/>
+                <Button fx:id="btnModoOscuro" text="🌙" styleClass="primary-button">
+                    <tooltip>
+                        <Tooltip text="Modo oscuro/claro"/>
+                    </tooltip>
+                </Button>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" styleClass="tab-pane">
+
+            <!-- TAB PRINCIPAL -->
+            <Tab text="Procesos">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <TitledPane text="📋 Procesos Activos" expanded="true" styleClass="label-subtle">
+
+
+                    <content>
+                            <TableView fx:id="tablaProcesos">
+                                <columns>
+                                    <TableColumn fx:id="colPid" text="PID"/>
+                                    <TableColumn fx:id="colNombre" text="Nombre"/>
+                                    <TableColumn fx:id="colEstado" text="Estado"/>
+                                    <TableColumn fx:id="colTiempo" text="Tiempo restante"/>
+                                    <TableColumn fx:id="colUsuario" text="Usuario"/>
+                                </columns>
+                            </TableView>
+                        </content>
+                    </TitledPane>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="💾 Estado de Memoria:"  />
+                        <ProgressBar fx:id="barraMemoria" prefWidth="300"/>
+                    </HBox>
+                    <ListView fx:id="listaBloquesMemoria" prefHeight="100" />
+                    <TitledPane text="➕ Agregar Proceso" expanded="false" styleClass="label-subtle">
+                        <content>
+                            <HBox spacing="8" alignment="CENTER_LEFT">
+                                <Label text="Nombre:"/>
+                                <TextField fx:id="txtNombreProceso" promptText="Nombre" prefWidth="90"/>
+                                <Label text="Tiempo:"/>
+                                <TextField fx:id="txtTiempoProceso" promptText="CPU" prefWidth="50"/>
+                                <Label text="Memoria:"/>
+                                <TextField fx:id="txtMemoriaProceso" promptText="MB" prefWidth="50"/>
+                                <Label text="Prioridad:"/>
+                                <TextField fx:id="txtPrioridadProceso" promptText="1-3" prefWidth="40"/>
+                                <Label text="Archivo:"/>
+                                <ComboBox fx:id="comboArchivoProceso" prefWidth="120" />
+                                <Button fx:id="btnAgregarProceso" text="Agregar Proceso" styleClass="primary-button"/>
+                                <Button fx:id="btnSugerirProcesosIA" text="Sugerir procesos IA" styleClass="primary-button"/>
+                            </HBox>
+                        </content>
+                    </TitledPane>
+                    <TitledPane text="📂 Estado de Archivos" expanded="false" styleClass="label-subtle">
+                        <content>
+                            <ListView fx:id="listaEstadoArchivos" prefHeight="80" />
+                        </content>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- TAB PROCESOS BLOQUEADOS -->
+            <Tab text="Bloqueados">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <TitledPane text="📛 Procesos Bloqueados" styleClass="label-Bloqueados"
+                                expanded="true">
+
+                        <content>
+                            <TableView fx:id="tablaBloqueados">
+                                <columns>
+                                    <TableColumn fx:id="colBloqPid" text="PID"/>
+                                    <TableColumn fx:id="colBloqNombre" text="Nombre"/>
+                                    <TableColumn fx:id="colBloqMotivo" text="Estado"/>
+                                    <TableColumn fx:id="colBloqUsuario" text="Usuario"/>
+                                </columns>
+                            </TableView>
+                        </content>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- TAB LOGS Y ACCESOS -->
+            <Tab text="Sistema">
+
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <TitledPane text="📝 Logs del Sistema" styleClass="label-subtle">
+                        <content>
+                            <TextArea fx:id="logArea" editable="false" wrapText="true" prefHeight="120"/>
+                        </content>
+                    </TitledPane>
+                    <TitledPane text="🔒 Accesos Denegados"
+                        styleClass= "label-Denegado">
+                        <content>
+                            <ListView fx:id="listaSeguridad" prefHeight="100"/>
+                        </content>
+                    </TitledPane>
+                    <TitledPane text="📌 Procesos en Espera o Bloqueados"
+                        styleClass="label-Bloqueados">
+                        <content>
+                            <ListView fx:id="listaProcesosEnEspera" prefHeight="100"/>
+                        </content>
+                    </TitledPane>
+                    <TitledPane text="🖨️ Estado de la Impresora" expanded="true" styleClass="label-subtle">
+                        <content>
+                            <VBox spacing="6">
+                                <Label fx:id="lblImpresora" text="Impresora: Libre" styleClass="label-subtle"/>
+                                <Label fx:id="lblEstadoSemaforoImpresora" text="Semáforo: Libre" styleClass="label-subtle"/>
+                                <Label text="Cola de espera de la impresora:" styleClass="label-subtle"/>
+                                <ListView fx:id="listaColaImpresora" prefHeight="60"/>
+                                <Button fx:id="btnLiberarImpresora" text="Liberar impresora" styleClass="primary-button"/>
+                            </VBox>
+                        </content>
+                    </TitledPane>
+                    <TitledPane text="📁 Estado del Archivo" expanded="true" styleClass="label-subtle">
+                        <content>
+                            <VBox spacing="6">
+                                <Label fx:id="lblArchivo" text="Archivo: Libre" styleClass="label-subtle"/>
+                                <Label fx:id="lblEstadoSemaforoArchivo" text="Semáforo: Libre" styleClass="label-subtle"/>
+                                <Label text="Cola de espera del archivo:" styleClass="label-subtle"/>
+                                <ListView fx:id="listaColaArchivo" prefHeight="60"/>
+                                <Button fx:id="btnLiberarArchivo" text="Liberar archivo" styleClass="primary-button"/>
+                            </VBox>
+                        </content>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+
+            <!-- TAB ASISTENTE IA -->
+            <Tab text="Asistente IA">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <TextField fx:id="inputPregunta" promptText="Haz una pregunta..." prefWidth="400"/>
+                    <ListView fx:id="chatListView" prefHeight="380" styleClass="chat-list"/>
+                    <Button fx:id="btnLimpiarChat" text="Limpiar chat" styleClass="primary-button" alignment="CENTER_RIGHT"/>
+                </VBox>
+            </Tab>
+
+            <!-- TAB GANTT -->
+            <Tab text="Planificación (Gantt)">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Diagrama de Gantt de la planificación de procesos" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <TableView fx:id="tablaGantt" prefHeight="250">
+                        <columns>
+                            <TableColumn fx:id="colGanttProceso" text="Proceso"/>
+                            <!-- Las columnas de tiempo se agregarán dinámicamente desde el controlador -->
+                        </columns>
+                    </TableView>
+                    <Label text="Asignación de memoria a procesos (First Fit / Best Fit)" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                    <TableView fx:id="tablaMemoriaGantt" prefHeight="180">
+                        <columns>
+                            <TableColumn fx:id="colMemoriaProceso" text="Proceso"/>
+                            <TableColumn fx:id="colMemoriaInicio" text="Inicio"/>
+                            <TableColumn fx:id="colMemoriaTamanio" text="Tamaño"/>
+                            <TableColumn fx:id="colMemoriaAlgoritmo" text="Algoritmo"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>

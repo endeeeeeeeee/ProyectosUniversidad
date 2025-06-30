@@ -1,0 +1,41 @@
+# Ignorar archivos generados por Gradle
+.gradle/
+build/
+target/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar
+*~
+.project
+.settings/
+.classpath
+.factorypath
+.apt_generated
+
+# Ignorar archivos específicos de IDEs (como IntelliJ IDEA)
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.DS_Store # macOS (si alguna vez usas Mac)
+Thumbs.db # Windows
+desktop.ini # Windows
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos de caché o temporales
+*.class
+*.bak
+*.swp
+
+# Archivos de configuración locales
+local.properties
+
+# Archivos del sistema operativo
+.Trashes
+ehthumbs.db

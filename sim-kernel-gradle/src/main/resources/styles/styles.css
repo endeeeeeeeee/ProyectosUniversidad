@@ -1,0 +1,274 @@
+/*
+ * Sim-Kernel: Estilos modernos, modo oscuro, animaciones y feedback visual
+ */
+
+.root {
+    -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
+    -fx-background-color: #f7f9fa;
+    -fx-transition: background-color 0.5s;
+}
+
+.root.dark-mode {
+    -fx-background-color: #23272e;
+}
+
+.header-box {
+    -fx-background-color: #2d3e50;
+    -fx-padding: 28 32 28 32;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, #00000033, 12, 0.25, 0, 3);
+    -fx-transition: background-color 0.5s;
+}
+
+.root.dark-mode .header-box {
+    -fx-background-color: #2b2f38;
+}
+
+.title-label {
+    -fx-font-size: 2.5em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff;
+    -fx-effect: dropshadow(gaussian, #00000099, 10, 0.4, 0, 3);
+    -fx-padding: 0 0 16 0;
+    -fx-letter-spacing: 1.5px;
+}
+
+.tab-pane {
+    -fx-background-color: #f7f9fa;
+    -fx-padding: 24 24 24 24;
+    -fx-transition: background-color 0.5s;
+}
+
+.root.dark-mode .tab-pane {
+    -fx-background-color: #a6aab8;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #e3eaf2;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-padding: 8 12 8 12;
+    -fx-border-radius: 8 8 0 0;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.titled-pane > .content {
+    -fx-background-color: #f7f9fa;
+    -fx-padding: 12 16 12 16;
+    -fx-border-radius: 0 0 8 8;
+    -fx-background-radius: 0 0 8 8;
+}
+
+.root.dark-mode .titled-pane > .title {
+    -fx-background-color: #8d929e;
+    -fx-text-fill: #23272e;
+}
+
+.root.dark-mode .titled-pane > .content {
+    -fx-background-color: #a6aab8;
+}
+
+.label-subtle {
+    -fx-text-fill: #2d3e50;
+    -fx-font-weight: 600;
+}
+
+.label-Bloqueados {
+    -fx-text-fill: #b22222;
+    -fx-font-weight: bold;
+}
+
+.label-Denegado {
+    -fx-text-fill: #b22222;
+    -fx-font-weight: bold;
+}
+
+.label-form {
+    -fx-font-size: 1.15em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3e50;
+    -fx-effect: dropshadow(gaussian, #ffffff99, 2, 0.2, 0, 1);
+}
+.root.dark-mode .label-form {
+    -fx-text-fill: #fff;
+    -fx-effect: dropshadow(gaussian, #00000099, 2, 0.2, 0, 1);
+}
+
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #4f8cff, #38c6ff);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 18 8 18;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, #4f8cff44, 6, 0.2, 0, 2);
+    -fx-border-width: 0;
+    -fx-font-size: 1em;
+    -fx-margin: 0 8 0 0;
+}
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to right, #38c6ff, #4f8cff);
+    -fx-effect: dropshadow(gaussian, #38c6ff66, 10, 0.3, 0, 2);
+}
+
+.text-area, .text-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 1em;
+}
+
+.root.dark-mode .text-area, .root.dark-mode .text-field {
+    -fx-background-color: #a6aab8;
+    -fx-text-fill: #23272e;
+    -fx-border-color: #8d929e;
+}
+
+.table-view {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 8 0 8 0;
+    -fx-effect: dropshadow(gaussian, #00000011, 4, 0.1, 0, 1);
+}
+.table-row-cell:selected {
+    -fx-background-color: #e3eaf2;
+}
+.table-cell {
+    -fx-padding: 8 8 8 8;
+    -fx-font-size: 1em;
+}
+
+.root.dark-mode .table-view {
+    -fx-background-color: #a6aab8;
+    -fx-border-color: #8d929e;
+}
+
+.root.dark-mode .table-row-cell, .root.dark-mode .table-cell {
+    -fx-background-color: #a6aab8;
+    -fx-text-fill: #23272e;
+}
+
+.table-row-cell.estado-LISTO {
+    -fx-background-color: #d4fcd4;
+}
+.table-row-cell.estado-EJECUTANDO {
+    -fx-background-color: #cce6ff;
+    -fx-font-weight: bold;
+}
+.table-row-cell.estado-BLOQUEADO {
+    -fx-background-color: #ffd6d6;
+}
+.table-row-cell.estado-TERMINADO {
+    -fx-background-color: #e3eaf2;
+    -fx-text-fill: #888;
+}
+
+/* Animación de barra de memoria */
+.progress-bar {
+    -fx-accent: #38c6ff;
+    -fx-background-radius: 8;
+    -fx-padding: 4 0 4 0;
+    -fx-transition: accent 0.7s;
+}
+
+.root.dark-mode .progress-bar {
+    -fx-accent: #4f8cff;
+    -fx-background-color: #8d929e;
+}
+
+/* Toast/feedback visual */
+.toast {
+    -fx-background-color: #232a36cc;
+    -fx-text-fill: #fff;
+    -fx-padding: 12 24 12 24;
+    -fx-background-radius: 12;
+    -fx-font-size: 1.1em;
+    -fx-effect: dropshadow(gaussian, #00000099, 10, 0.4, 0, 3);
+    -fx-opacity: 0.95;
+    -fx-transition: opacity 0.5s;
+}
+
+/* Iconos en botones */
+.button .icon {
+    -fx-padding: 0 8 0 0;
+    -fx-font-size: 1.1em;
+}
+
+/* Validación visual de formularios */
+.text-field.error {
+    -fx-border-color: #ff4136;
+    -fx-border-width: 2;
+    -fx-background-color: #fff0f0;
+}
+
+/* Botón modo oscuro */
+#btnModoOscuro {
+    -fx-background-color: #232a36;
+    -fx-text-fill: #fff;
+    -fx-background-radius: 8;
+    -fx-padding: 6 16 6 16;
+    -fx-cursor: hand;
+    -fx-font-size: 1em;
+    -fx-effect: dropshadow(gaussian, #00000044, 6, 0.2, 0, 2);
+}
+#btnModoOscuro:hover {
+    -fx-background-color: #38c6ff;
+    -fx-text-fill: #232a36;
+}
+
+/* Espaciado extra para los HBox y VBox principales */
+.hbox, .vbox {
+    -fx-spacing: 18;
+}
+
+/* Mejor separación entre secciones */
+.titled-pane {
+    -fx-margin: 0 0 18 0;
+}
+
+/* Animación sutil al enfocar campos */
+.text-field:focused, .combo-box:focused {
+    -fx-effect: dropshadow(gaussian, #38c6ff44, 8, 0.2, 0, 2);
+    -fx-border-color: #38c6ff;
+}
+
+/* Tooltips modernos */
+.tooltip {
+    -fx-background-color: #2d3e50;
+    -fx-text-fill: #fff;
+    -fx-font-size: 1em;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12 8 12;
+}
+
+/* Scrollbar más visible */
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    -fx-background-color: #38c6ff;
+    -fx-background-radius: 8;
+}
+
+/* Separación entre botones en formularios */
+.hbox > .button {
+    -fx-margin: 0 8 0 0;
+}
+
+/* Mejorar visualización de logs */
+#logArea {
+    -fx-background-color: #f7f9fa;
+    -fx-border-color: #e3eaf2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 1em;
+    -fx-padding: 10 14 10 14;
+}
+
+/* Responsive para pantallas pequeñas */
+@media screen and (max-width: 900px) {
+    .header-box, .tab-pane, .titled-pane > .content {
+        -fx-padding: 8 4 8 4;
+    }
+    .title-label {
+        -fx-font-size: 1.3em;
+    }
+}

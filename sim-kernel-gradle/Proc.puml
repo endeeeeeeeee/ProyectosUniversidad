@@ -1,0 +1,68 @@
+@startuml
+' Diagrama de clases principal para Sim-Kernel
+
+package core {
+  interface RecursoCompartido {
+    +solicitar(p: Proceso): boolean
+    +liberar(): void
+    +getProcesoActual(): Proceso
+    +getColaEspera(): Queue<Proceso>
+    +getNombre(): String
+  }
+  class Impresora implements RecursoCompartido {
+    -procesoActual: Proceso
+    -colaEspera: Queue<Proceso>
+    -semaforo: Semaphore
+  }
+  class Archivo implements RecursoCompartido {
+    -procesoActual: Proceso
+    -colaEspera: Queue<Proceso>
+    -semaforo: Semaphore
+  }
+  class Semaphore {
+    -value: int
+    +acquire(): boolean
+    +release(): void
+    +getValue(): int
+  }
+}
+
+package process {
+  class Proceso {
+    +pid: int
+    +nombre: String
+    +estado: Estado
+    +tiempoRestante: int
+    +memoriaNecesaria: int
+    +prioridad: int
+    +usuario: Usuario
+  }
+}
+
+package memory {
+  class Memoria {
+    -bloques: List<Bloque>
+    -totalMemoria: int
+    +asignarFirstFit(p: Proceso): boolean
+    +asignarBestFit(p: Proceso): boolean
+    +liberarMemoria(p: Proceso): void
+    +getMemoriaLibre(): int
+  }
+}
+
+package security {
+  class Usuario {
+    +nombre: String
+    +agregarPermiso(recurso: String): void
+    +tienePermiso(recurso: String): boolean
+  }
+}
+
+core.Impresora --> process.Proceso
+core.Archivo --> process.Proceso
+core.RecursoCompartido <|.. core.Impresora
+core.RecursoCompartido <|.. core.Archivo
+process.Proceso --> security.Usuario
+memory.Memoria --> process.Proceso
+
+@enduml
