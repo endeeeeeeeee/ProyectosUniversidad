@@ -39,6 +39,16 @@ public class SimViewController {
     @FXML private TableColumn<Proceso, String> colTiempo;
     @FXML private TableColumn<Proceso, String> colUsuario;
     @FXML private ProgressBar barraMemoria;
+    
+    // Nuevos elementos para la memoria profesional
+    @FXML private Label lblMemoriaTotal;
+    @FXML private Label lblMemoriaUsada;
+    @FXML private Label lblMemoriaLibre;
+    @FXML private Label lblPorcentajeUso;
+    @FXML private Label lblEstrategiaMemoria;
+    @FXML private Label lblFragmentacion;
+    @FXML private Label lblProcesosEnMemoria;
+    
     @FXML private Button btnSimular;
     @FXML private TableView<Proceso> tablaBloqueados;
     @FXML private TableColumn<Proceso, String> colBloqPid;
@@ -234,6 +244,36 @@ public class SimViewController {
         });
         // Botón limpiar chat
         btnLimpiarChat.setOnAction(e -> mensajesChat.clear());
+        
+        // 🚀 Inicializar visualización de memoria profesional
+        inicializarVisualizacionMemoria();
+    }
+    
+    /**
+     * 🎯 Inicializa la visualización de memoria profesional desde el inicio
+     */
+    private void inicializarVisualizacionMemoria() {
+        Platform.runLater(() -> {
+            // Valores iniciales de memoria
+            lblMemoriaTotal.setText("512 MB");
+            lblMemoriaUsada.setText("0 MB");
+            lblMemoriaLibre.setText("512 MB");
+            lblPorcentajeUso.setText("0.0%");
+            lblEstrategiaMemoria.setText("First Fit");
+            lblFragmentacion.setText("Baja");
+            lblProcesosEnMemoria.setText("0");
+            
+            // Configurar barra de memoria inicial
+            barraMemoria.setProgress(0.0);
+            barraMemoria.setStyle("-fx-accent: #27ae60; -fx-control-inner-background: #ecf0f1;");
+            lblPorcentajeUso.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+            
+            // Animación de entrada
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), lblMemoriaTotal.getParent());
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+            fadeIn.play();
+        });
     }
 
     private void agregarProcesoUsuario() {
@@ -398,15 +438,8 @@ public class SimViewController {
         tablaProcesos.refresh();
         tablaBloqueados.refresh();
         actualizarResumen(listaProcesos);
-        double uso = 1.0 - (memoria.getMemoriaLibre() / 512.0);
-        barraMemoria.setProgress(uso);
-        if (uso < 0.5) {
-            barraMemoria.setStyle("-fx-accent: #2ecc40;"); // verde
-        } else if (uso < 0.8) {
-            barraMemoria.setStyle("-fx-accent: #ffdc00;"); // amarillo
-        } else {
-            barraMemoria.setStyle("-fx-accent: #ff4136;"); // rojo
-        }
+        // 🎯 Actualizar toda la interfaz de memoria profesional
+        actualizarEstadoMemoriaUI();
         procesosUsuario.clear(); // Limpia la lista para la próxima simulación
         // Mostrar asignación de memoria en Gantt
         registrarMemoriaGantt(listaProcesos, estrategia);
@@ -679,12 +712,65 @@ public class SimViewController {
     }
     private void actualizarEstadoMemoriaUI() {
         Platform.runLater(() -> {
+            // Actualizar lista de bloques (como antes)
             listaBloquesMemoria.getItems().setAll(memoria.getEstadoBloques());
-            // Animación de barra de memoria
-            FadeTransition ft = new FadeTransition(Duration.millis(700), barraMemoria);
+            
+            // 🔢 Calcular valores de memoria
+            double memoriaTotal = 512.0; // MB
+            double memoriaLibre = memoria.getMemoriaLibre();
+            double memoriaUsada = memoriaTotal - memoriaLibre;
+            double porcentajeUso = (memoriaUsada / memoriaTotal) * 100;
+            
+            // 📊 Actualizar labels informativos
+            lblMemoriaTotal.setText(String.format("%.0f MB", memoriaTotal));
+            lblMemoriaUsada.setText(String.format("%.0f MB", memoriaUsada));
+            lblMemoriaLibre.setText(String.format("%.0f MB", memoriaLibre));
+            lblPorcentajeUso.setText(String.format("%.1f%%", porcentajeUso));
+            
+            // 🎯 Actualizar estrategia de memoria
+            EstrategiaMemoria estrategia = getEstrategiaSeleccionada();
+            lblEstrategiaMemoria.setText(estrategia == EstrategiaMemoria.FIRST_FIT ? "First Fit" : "Best Fit");
+            
+            // 🧩 Calcular fragmentación
+            int bloquesLibres = (int) memoria.getEstadoBloques().stream()
+                    .filter(bloque -> bloque.contains("Libre"))
+                    .count();
+            String fragmentacion = bloquesLibres <= 2 ? "Baja" : bloquesLibres <= 5 ? "Media" : "Alta";
+            lblFragmentacion.setText(fragmentacion);
+            
+            // 🔢 Contar procesos en memoria
+            long procesosEnMemoria = memoria.getEstadoBloques().stream()
+                    .filter(bloque -> bloque.contains("Ocupado por PID"))
+                    .count();
+            lblProcesosEnMemoria.setText(String.valueOf(procesosEnMemoria));
+            
+            // 🎨 Actualizar barra de progreso con colores mejorados
+            double uso = memoriaUsada / memoriaTotal;
+            barraMemoria.setProgress(uso);
+            
+            // 🌈 Colores dinámicos según el uso
+            if (uso < 0.5) {
+                barraMemoria.setStyle("-fx-accent: #27ae60; -fx-control-inner-background: #ecf0f1;"); // Verde
+                lblPorcentajeUso.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+            } else if (uso < 0.8) {
+                barraMemoria.setStyle("-fx-accent: #f39c12; -fx-control-inner-background: #ecf0f1;"); // Naranja
+                lblPorcentajeUso.setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
+            } else {
+                barraMemoria.setStyle("-fx-accent: #e74c3c; -fx-control-inner-background: #ecf0f1;"); // Rojo
+                lblPorcentajeUso.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+            }
+            
+            // ✨ Animación de la barra de memoria
+            FadeTransition ft = new FadeTransition(Duration.millis(800), barraMemoria);
             ft.setFromValue(0.6);
             ft.setToValue(1.0);
             ft.play();
+            
+            // 🎭 Animación de las estadísticas
+            FadeTransition ftStats = new FadeTransition(Duration.millis(600), lblMemoriaUsada);
+            ftStats.setFromValue(0.7);
+            ftStats.setToValue(1.0);
+            ftStats.play();
         });
     }
     private void actualizarEstadoArchivosUI() {
